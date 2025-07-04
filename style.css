@@ -102,3 +102,9 @@ img{
 	width: 100%;
 	z-index: 0;
 }
+input{
+	border-radius: 2px;
+	width: 20vw;
+	height: 5vh;
+	font-size: 2em;
+}
