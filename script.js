@@ -94,17 +94,19 @@ const leMotToObject = (leMot) => {
 function validFunction(leMot){
     //partie qui gère la validation des couleurs
     const objMot = leMotToObject(leMot);
+   
     answer.forEach((ele,i)=>{
+
         if(!objMot[ele]){
             document.querySelector(`#row${r}case${i}`).style.backgroundColor = 'grey';
-            ele=' ';
         }else{
-            objMot.ele.some(el=>el===i)?
+            objMot[ele].some(el=>el===i)?
             document.querySelector(`#row${r}case${i}`).style.backgroundColor = 'green'
             :
             document.querySelector(`#row${r}case${i}`).style.backgroundColor = 'yellow';
-            ele=' ';
+            answer.splice(i,1,' ');
         }
+        console.log(answer)
     });
     
 
