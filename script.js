@@ -94,20 +94,31 @@ const leMotToObject = (leMot) => {
 function validFunction(leMot){
     //partie qui gère la validation des couleurs
     const objMot = leMotToObject(leMot);
-   
-    answer.forEach((ele,i)=>{
+    console.log(objMot);
+    for(let lettre in objMot){
+        console.log(lettre)
 
-        if(!objMot[ele]){
-            document.querySelector(`#row${r}case${i}`).style.backgroundColor = 'grey';
-        }else{
-            objMot[ele].some(el=>el===i)?
-            document.querySelector(`#row${r}case${i}`).style.backgroundColor = 'green'
-            :
-            document.querySelector(`#row${r}case${i}`).style.backgroundColor = 'yellow';
-            answer.splice(i,1,' ');
+        for(let count = 0 ; count<objMot[lettre].length; count++){
+        if(answer.some(el=>el===lettre)){
+            objMot[lettre].filter(el=>answer[el]===lettre).forEach(i=>{
+                document.querySelector(`#row${r}case${i}`).style.backgroundColor = 'green';
+                answer[i]=' ';
+                count++;
+            })
+            console.log(count);
+            let index = answer.findIndex((el,i)=>el===lettre&&!lettre[i]);
+            if(index>=0&&count!==objMot[lettre].length){
+                document.querySelector(`#row${r}case${index}`).style.backgroundColor = 'yellow'
+                answer[index]=' '
+                count++
+            }
         }
-        console.log(answer)
+        console.log(answer);
+    }}
+    answer.forEach((ele,i)=>{
+            ele!==' '&&(document.querySelector(`#row${r}case${i}`).style.backgroundColor = 'grey')
     });
+
     
 
     //partie qui gère l'affichage de l'indice
