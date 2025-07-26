@@ -77,20 +77,38 @@ function backLetter(){
         c--;
         document.querySelector(`#row${r}case${c}`).textContent= "";
 }
+//fonction qui transformera le Mot à chercher en objet {lettre:[positions]}
+const leMotToObject = (leMot) => {
+    let arr = leMot.split('');
+    let obj = {};
+    arr.forEach((el,i)=>{
+        if(!obj[el]){
+            obj[el]=[i];
+        }else{
+            obj[el].push(i)
+        }
+    })
+    return obj
+}
 
-function validFunction(taille,leMot){
-    console.log(taille)
-    for(let i=0; i<taille; i++){
-        
-        // console.log(leMot)
-        if(answer.some((ele)=>ele===leMot[i])){
-            let index = answer.findIndex((ele)=>ele===leMot[i])
-            if(leMot[i] === answer[i]){document.querySelector(`#row${r}case${i}`).style.backgroundColor = 'green'}
-            else{console.log('ok'); document.querySelector(`#row${r}case${index}`).style.backgroundColor = 'yellow'};
-            answer[index]=" ";
-            }}
-    answer.forEach((ele,g)=>ele!==" "?document.querySelector(`#row${r}case${g}`).style.backgroundColor = 'grey':"");
+function validFunction(leMot){
+    //partie qui gère la validation des couleurs
+    const objMot = leMotToObject(leMot);
+    answer.forEach((ele,i)=>{
+        if(!objMot[ele]){
+            document.querySelector(`#row${r}case${i}`).style.backgroundColor = 'grey';
+            ele=' ';
+        }else{
+            objMot.ele.some(el=>el===i)?
+            document.querySelector(`#row${r}case${i}`).style.backgroundColor = 'green'
+            :
+            document.querySelector(`#row${r}case${i}`).style.backgroundColor = 'yellow';
+            ele=' ';
+        }
+    });
+    
 
+    //partie qui gère l'affichage de l'indice
     if(answer.some(ele=>ele!==" "&&r!==5)){
         if(r==4){
             const div = document.querySelector('#result')
@@ -101,10 +119,14 @@ function validFunction(taille,leMot){
         r++
     
     answer = []
+
+    //partie qui gère l'affichage de "GAME OVER"
     }else if(answer.some(ele=>ele!==" "&&r===5)){
         const div = document.querySelector('#result');
         div.textContent = "GAME OVER";
         div.setAttribute('class', "loose");
+    
+    //partie qui gère l'affichage de "You Win!"
     }else{
         const div = document.querySelector('#result');
         div.textContent = "You WON!";
@@ -127,7 +149,7 @@ document.addEventListener('keyup',(e)=>{
 
     }else if(patternEnter.test(touch)&&c===motCherche.length){
         
-        validFunction(motCherche.length,motCherche);
+        validFunction(motCherche);
 
     }else if(patternEnter.test(touch)&&c!==motCherche.length){
         document.querySelector(`#result`).textContent = "Not enough letters !"
